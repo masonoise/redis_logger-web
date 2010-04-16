@@ -1,0 +1,58 @@
+<% @subtabs = RedisLogger.groups.keys unless partial? %>
+
+<% if (group = params[:id] || @intersect == true) %>
+  <% start = params[:start].to_i %>
+  <% if (@intersect == true)%>
+      <% entries = RedisLogger.intersect(params['groups'].keys) %>
+      <% size = "n/a" %>
+      <h1>Latest 100 log entries from intersecting <span class='hl'><%= params['groups'].keys.join(',') %></span></h1>
+  <% else %>
+      <% size = RedisLogger.size(group) %>
+      <% entries = RedisLogger.entries(group, start, 50) %>
+      <h1>Log entries in <span class='hl'><%= group %></span></h1>
+      <p class='sub'>Showing entries <%= start %> to <%= (size < (start+50) ? size : start+50)  %> of <b><%= size %></b></p>
+  <% end %>
+
+
+  <table class="entries">
+      <% entries.each do |entry| %>
+      <tr>
+        <td width="20%">
+          <%= Time.at(entry['timestamp'].to_i) %>
+        </td>
+        <td>
+          <% entry.each_pair do |k, v| %>
+            <% if (k != 'timestamp') %>
+                <span style="font-weight: bold;"><%= k %>:</span><%= v %>&nbsp;
+            <% end %>
+          <% end %>
+        </td>
+      </tr>
+      <% end %>
+  </table>
+
+  <% if (!@intersect || @intersect == false) %>
+    <%= partial :next_more, :start => start, :size => size %>
+  <% end %>
+
+<% else %>
+    <% groups = RedisLogger.groups %>
+    <% if (!groups || (groups.length == 0)) %>
+        <p>No logs yet.</p>
+    <% else %>
+        <form action="/intersect">
+        <h2>Log groups</h2>
+          <input type="submit" name='' value="View Intersection" /> of selected groups, or click a name
+        <table class="groups">
+          <% RedisLogger.groups.each_pair do |g, c| %>
+          <tr>
+            <td><input type="checkbox" name="groups[<%= g %>]" value="<%= g %>"></td>
+            <td class="group"><a href="/groups/<%= g %>"><%= g %></a></td>
+            <td><%= c %> entries</td>
+          </tr>
+          <% end %>
+        </table>
+        </form>
+    <% end %>
+
+<% end %>

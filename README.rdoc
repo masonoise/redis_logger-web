@@ -1,0 +1,49 @@
+= redis_logger-web
+
+Web interface for browsing log entries from redis_logger.
+
+== Version
+
+Version 0.1.0
+
+== Installation
+
+You will need the redis_logger gem installed and logging added to your app. You'll also need Sinatra.
+
+Download this code and install somewhere, then just run the server:
+
+  cd redis_logger-web/bin
+  ruby redislogger-web
+
+That will start the server and load the overview page in your browser.
+
+== Known Issues
+
+1. Viewing the intersection of multiple groups is limited currently to just the most recent 100
+   entries. See redis_logger for more details about why this is.
+2. Display of the entries could be nicer-looking, and will be soon. Need to find a way to make an
+   arbitrary number of hash key/value pairs look nice and readable.
+3. Next up is adding export capability in order to download a nice CSV of entries for analysis.
+4. Need to add live polling capability in order to be able to sit on the page for a group and have
+   new entries appear as it refreshes.
+5. Should add a "Clear" button to clear all the entries from a group.
+
+== Contributing
+
+This is very young and simple thus far. If you have some cool ideas, go for it, give it a try, if it seems
+good to you then get in touch and we'll see about merging it in.
+
+* Fork the project.
+* Make your feature addition or bug fix.
+* Add tests for it. This is important so I don't break it in a
+  future version unintentionally.
+* Commit, do not mess with rakefile, version, or history.
+  (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
+* Send me a pull request. Bonus points for topic branches.
+
+== Author
+
+Note: The basis for this app is the great resque-web app by @defunkt. I stole that code and just
+modified it for this, so all credit should go to him. Thx.
+
+Mason Jones ~~~ stuff@charnel.com ~~~ @masonoise

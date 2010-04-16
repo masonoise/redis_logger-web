@@ -1,0 +1,10 @@
+<%if  start - 50 >= 0 || start + 50 <= size%>
+<p class='pagination'>
+  <% if start - 50 >= 0 %>
+    <a href="<%= current_page %>?start=<%= start - 50 %>" class='less'>&laquo; less</a>
+  <% end %>
+  <% if start + 50 <= size %>
+    <a href="<%= current_page %>?start=<%= start + 50 %>" class='more'>more &raquo;</a>
+  <% end %>
+</p>
+<%end%>
